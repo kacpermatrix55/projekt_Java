@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+if (Astro.locals.accessToken) {
+	return Astro.redirect('/app', 302);
+}
+
+const errors = [];
+
+if (Astro.request.method === 'POST') {
+	try {
+		const data = await Astro.request.formData();
+		const login = data.get('login');
+		const password = data.get('password');
+
+		const response = await fetch(import.meta.env.BACKEND_SERVER + '/login', {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+			},
+			body: JSON.stringify({
+				username: login,
+				password,
+			}),
+		});
+
+		if (response.status === 401) {
+			errors.push('Incorrect username/password');
+		} else if (!response.ok) {
+			errors.push(`Server response status returned ${response.status}`);
+
+			const serverErrors = await response.json();
+			errors.push(...serverErrors);
+		} else {
+			const json = await response.json();
+
+			Astro.cookies.set('accessToken', json.accessToken, {
+				sameSite: 'strict',
+			});
+
+			return Astro.redirect('/app', 302);
+		}
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error(error);
+			errors.push(error.message);
+		} else {
+			errors.push(String(error));
+		}
+	}
+}
+---
+
+<Layout title="Log in">
+	<main>
+		<form method="post">
+			<input name="login" placeholder="Login">
+			<input name="password" placeholder="Password" type="password">
+			<button>Log in</button>
+		</form>
+		{errors.map(error => <p>{error}</p>)}
+		<a href="/register">Register</a>
+	</main>
+</Layout>

@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+if (Astro.locals.accessToken) {
+	return Astro.redirect('/app', 302);
+}
+
+const errors = {
+  server: [],
+  login: [],
+  password: [],
+  success: [],
+};
+
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const login = data.get('login');
+    const password = data.get('password');
+    const repeatPassword = data.get('repeatPassword');
+    const access = data.getAll('access');
+
+    if (typeof login !== 'string') {
+      errors.login.push('Please enter login.');
+    }
+
+    if (typeof password !== 'string' || typeof repeatPassword !== 'string') {
+      errors.password.push('Please enter password.');
+    } else if (password !== repeatPassword) {
+      errors.password.push('Passwords do not match.');
+    }
+
+    const response = await fetch(import.meta.env.BACKEND_SERVER + '/register', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: login,
+        password,
+        access,
+      }),
+    });
+    
+    if (!response.ok) {
+      const serverErrors = await response.json();
+      errors.server.push(...serverErrors);
+    } else {
+      errors.success.push('Registered successfully!');
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      errors.server.push(error.message);
+    } else {
+      errors.server.push(String(error));
+    }
+  }
+}
+---
+
+<Layout title="Register">
+	<main>
+		<form method="post">
+			<input name="login" placeholder="Login" required>
+      {errors.login.map(error => <p>{error}</p>)}
+			<input name="password" placeholder="Password" type="password" required>
+      <input name="repeatPassword" placeholder="Repeat Password" type="password" required>
+      {errors.password.map(error => <p>{error}</p>)}
+      <label><input name="access" value="editor" type="checkbox">Editor access</label>
+      <button>Register</button>
+      {errors.server.map(error => <p>{error}</p>)}
+      {errors.success.map(error => <p>{error}</p>)}
+		</form>
+    <a href="/">Log in</a>
+	</main>
+</Layout>

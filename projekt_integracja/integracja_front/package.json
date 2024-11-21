@@ -1,0 +1,18 @@
+{
+  "name": "integracja_front",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev --host",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.10.3",
+    "jose": "^5.4.1",
+    "node": "^20.18.1",
+    "shiki": "^1.23.1"
+  }
+}
