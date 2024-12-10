@@ -1,12 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.RenewableEnergy;
-import com.example.demo.repository.RenewableEnergyRepository;
+import com.example.demo.entity.Species;
+import com.example.demo.repository.SpeciesRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,20 +13,20 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/renewableEnergy")
+@RequestMapping("/species")
 @Transactional(readOnly = true)
 @AllArgsConstructor
-public class RenewableEnergyController {
-    private final RenewableEnergyRepository repository;
+public class SpeciesController {
+    private final SpeciesRepository repository;
 
     @GetMapping("/")
-    public List<RenewableEnergy> get() { return repository.findAll(); }
+    public List<Species> get() { return repository.findAll(); }
 
     @PostMapping("/")
     @PreAuthorize("hasRole('EDITOR')")
     @Transactional
-    public ResponseEntity<?> post(@RequestBody RenewableEnergy entity) {
-        if (entity.year != null && repository.existsById(entity.year)) {
+    public ResponseEntity<?> post(@RequestBody Species entity) {
+        if ( repository.existsById(entity.id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -37,12 +36,12 @@ public class RenewableEnergyController {
     }
 
     @GetMapping("/all")
-    public List<RenewableEnergy> getAll() { return repository.findAll(); }
+    public List<Species> getAll() { return repository.findAll(); }
 
     @PostMapping("/all")
     @PreAuthorize("hasRole('EDITOR')")
     @Transactional
-    public ResponseEntity<?> postAll(@RequestBody List<RenewableEnergy> entity) {
+    public ResponseEntity<?> postAll(@RequestBody List<Species> entity) {
         repository.saveAll(entity);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -57,22 +56,11 @@ public class RenewableEnergyController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/readUncommitted")
-    @Transactional(readOnly = true, isolation = Isolation.READ_UNCOMMITTED)
-    public List<RenewableEnergy> readUncommitted() { return repository.findAll(); }
-
-    @GetMapping("/readCommitted")
-    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
-    public List<RenewableEnergy> readCommitted() { return repository.findAll(); }
-
-    @GetMapping("/repeatableRead")
-    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
-    public List<RenewableEnergy> repeatableRead() { return repository.findAll(); }
 
     @GetMapping("/id/{id}")
     @Transactional
     public ResponseEntity<?> findById(@PathVariable("id") Short id) {
-        Optional<RenewableEnergy> found = repository.findById(id);
+        Optional<Species> found = repository.findById(id);
 
         if (found.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -84,8 +72,8 @@ public class RenewableEnergyController {
     @PutMapping("/id/{id}")
     @PreAuthorize("hasRole('EDITOR')")
     @Transactional
-    public ResponseEntity<?> put(@RequestBody RenewableEnergy entity, @PathVariable("id") short id) {
-        if (entity.year != null && entity.year != id) {
+    public ResponseEntity<?> put(@RequestBody Species entity, @PathVariable("id") short id) {
+        if (entity.id != id) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

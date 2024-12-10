@@ -3,19 +3,20 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class RenewableEnergy {
+public class Species {
     @Id
-    public Short year;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public short id;
 
     @Column(nullable = false)
-    public double allEnergy;
+    public String name;
 
     @Column(nullable = false)
-    public double electricity;
+    public int difficulty;
 
     @Column(nullable = false)
-    public double heating;
+    public int water;
 
     @Column(nullable = false)
-    public double transport;
+    public int light;
 }
