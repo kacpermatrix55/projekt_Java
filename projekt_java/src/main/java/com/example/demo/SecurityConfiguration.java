@@ -52,9 +52,8 @@ public class SecurityConfiguration {
             authorizeHttpRequests.requestMatchers("/login").permitAll();
             authorizeHttpRequests.requestMatchers("/register").permitAll();
             authorizeHttpRequests.anyRequest().authenticated();
-        }).sessionManagement(sessionManagement -> {
-            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        }).exceptionHandling(exceptionHandling -> {
+        }).sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptionHandling -> {
             exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
             exceptionHandling.accessDeniedHandler(new AccessDeniedHandlerImpl());
         }).addFilterBefore(
