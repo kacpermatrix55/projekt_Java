@@ -1,0 +1,15 @@
+meta {
+  name: get my plants
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/plants/my
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcnp5a2xhZEBnbWFpbC5jb20iLCJleHAiOjE3MzM4NTM0MjV9.x9fzN54PF3biorSOE_cEhIqudlr4K2NDb84eFZ11Frs
+}

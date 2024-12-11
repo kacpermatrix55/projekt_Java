@@ -48,9 +48,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         user.username = request.username;
         user.password = passwordEncoder.encode(request.password);
 
-//        if (request.access == null || request.access.isEmpty()) {
-//            return List.of("No access requested, please choose at least one");
-//        }
 
         if (request.access != null) {
             for (String requested : request.access) {

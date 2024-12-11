@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.util;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;

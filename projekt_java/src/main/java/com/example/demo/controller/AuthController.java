@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.JwtTokenUtil;
+import com.example.demo.util.JwtTokenUtil;
 import com.example.demo.data.LoginRequest;
 import com.example.demo.data.LoginResponse;
 import com.example.demo.data.RegisterRequest;

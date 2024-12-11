@@ -1,0 +1,25 @@
+meta {
+  name: add a plant
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8080/plants/add
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcnp5a2xhZEBnbWFpbC5jb20iLCJleHAiOjE3MzM5NDY3Mjl9.PSFe5N-sOHwYCERKNWiYHktKwOKd0aTIe6IEeNSZL0o
+}
+
+body:json {
+  {"id":null,
+   "days_between_watering":2,
+   "description":"bruh",
+   "favourite":1,
+   "name":"test3",
+   "species":2
+  }
+}

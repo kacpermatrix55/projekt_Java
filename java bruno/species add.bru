@@ -1,0 +1,27 @@
+meta {
+  name: species add
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/species/all
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcnp5a2xhZEBnbWFpbC5jb20iLCJleHAiOjE3MzM4NjIyNDl9.SPXomwaxdzpTOmgKrN1cwN_9-bXpKTmEE0hYlcIhQZM
+}
+
+body:json {
+  [
+    {
+      "id": 2,
+      "name": "fabafsdf",
+      "difficulty": 1,
+      "water": 1,
+      "light": 1
+    }
+  ]
+}

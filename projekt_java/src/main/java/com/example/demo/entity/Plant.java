@@ -26,5 +26,5 @@ public class Plant {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    public User user;
 }
