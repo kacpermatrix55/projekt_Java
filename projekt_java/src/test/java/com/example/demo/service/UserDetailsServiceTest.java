@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UserDetailsServiceImplTest {
+public class UserDetailsServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -26,7 +26,7 @@ public class UserDetailsServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @BeforeEach
     public void setup() {
@@ -34,7 +34,7 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void testLoadUserByUsername_UserExists() {
+    public void givenUsername_whenFindByUsername_toReturnUser() {
         User user = new User();
         user.setUsername("testuser");
         user.setPassword("password");
@@ -42,7 +42,8 @@ public class UserDetailsServiceImplTest {
 
         when(userRepository.findByUsername("testuser")).thenReturn(user);
 
-        org.springframework.security.core.userdetails.UserDetails userDetails = userDetailsService.loadUserByUsername("testuser");
+        org.springframework.security.core.userdetails.UserDetails userDetails = userDetailsService.
+                loadUserByUsername("testuser");
 
         assertNotNull(userDetails);
         assertEquals("testuser", userDetails.getUsername());
@@ -51,14 +52,14 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void testLoadUserByUsername_UserNotFound() {
+    public void givenNonexistentUsername_whenFindByUsername_toReturnUserNotFound() {
         when(userRepository.findByUsername("nonexistent")).thenReturn(null);
 
         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("nonexistent"));
     }
 
     @Test
-    public void testRegister_ValidRequest() {
+    public void givenRequest_whenRegister_toRetrunEmptyResult() {
         RegisterRequest request = new RegisterRequest("newuser", "password123", List.of("editor"));
 
 
@@ -72,7 +73,7 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void testRegister_UsernameTooShort() {
+    public void givenUsernameTooShort_whenRegister_toReturnResultUsernameTooShort() {
         RegisterRequest request = new RegisterRequest("usr", "password123", List.of("editor"));
 
         List<String> result = userDetailsService.register(request);
@@ -83,7 +84,7 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void testRegister_UsernameAlreadyExists() {
+    public void givenExistingUsername_whenRegister_toReturnResultUsernameExists() {
         RegisterRequest request = new RegisterRequest("existinguser", "password123", List.of("editor"));
 
         when(userRepository.findByUsername("existinguser")).thenReturn(new User());
@@ -96,7 +97,7 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void testRegister_UnrecognizedAccess() {
+    public void givenListOfUnknown_whenRegister_toReturnUnrecognizedRequestedAccess() {
         RegisterRequest request = new RegisterRequest("newuser", "password123", List.of("unknown"));
 
         List<String> result = userDetailsService.register(request);

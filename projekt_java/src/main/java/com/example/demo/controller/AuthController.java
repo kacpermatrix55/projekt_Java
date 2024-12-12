@@ -4,7 +4,7 @@ import com.example.demo.util.JwtTokenUtil;
 import com.example.demo.data.LoginRequest;
 import com.example.demo.data.LoginResponse;
 import com.example.demo.data.RegisterRequest;
-import com.example.demo.service.UserDetailsServiceImpl;
+import com.example.demo.service.UserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.List;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
