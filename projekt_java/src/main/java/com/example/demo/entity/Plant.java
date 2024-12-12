@@ -1,8 +1,13 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "plant")
 public class Plant {
     @Id

@@ -38,7 +38,6 @@ public class JwtTokenUtil {
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
-
     public Claims getClaims(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
 
