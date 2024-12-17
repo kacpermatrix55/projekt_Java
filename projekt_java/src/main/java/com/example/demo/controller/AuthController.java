@@ -43,7 +43,7 @@ public class AuthController {
         List<String> errors = userDetailsService.register(registerRequest);
 
         if (errors.isEmpty()) {
-            return new ResponseEntity<>(errors, HttpStatus.CREATED);
+            return ResponseEntity.ok("User registered successfully");
         }
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

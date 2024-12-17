@@ -35,9 +35,6 @@ public class SpeciesController {
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
-    public List<Species> getAll() { return repository.findAll(); }
-
     @PostMapping("/all")
     @PreAuthorize("hasRole('EDITOR')")
     @Transactional
