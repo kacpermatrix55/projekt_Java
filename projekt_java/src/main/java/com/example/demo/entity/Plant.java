@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,5 +32,6 @@ public class Plant {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     public User user;
 }

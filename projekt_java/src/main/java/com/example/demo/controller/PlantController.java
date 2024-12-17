@@ -39,7 +39,9 @@ public class PlantController {
         String username = authentication.getName();
 
         User user = userRepository.findByUsername(username);
-             //  .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User not found: " + username);
+        }
 
         Plant plant = new Plant();
         plant.name = plantRequest.getName();
