@@ -76,6 +76,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("org.eclipse.angus:angus-mail:2.0.3")
     implementation("wsdl4j:wsdl4j:1.6.3")
     jaxb("org.glassfish.jaxb:jaxb-xjc:4.0.2")
     compileOnly("org.projectlombok:lombok:1.18.26")
